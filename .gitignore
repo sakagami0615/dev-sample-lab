@@ -1,0 +1,101 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Test / coverage caches
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.pyright/
+.ruff_cache/
+
+# Python environments
+.venv/
+venv/
+env/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# JavaScript / TypeScript
+node_modules/
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.pnpm-store/
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.turbo/
+.parcel-cache/
+coverage/
+.nyc_output/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Java / Kotlin / Gradle
+.gradle/
+target/
+out/
+*.class
+*.jar
+*.war
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Go
+vendor/
+*.test
+*.out
+coverage.out
+
+# Rust
+target/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!.terraform.lock.hcl
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local AI-assistant settings
+.claude/
+.codex/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+
+# Superpower documentation
+*/docs/superpowers/
