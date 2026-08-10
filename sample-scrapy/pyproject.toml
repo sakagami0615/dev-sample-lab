@@ -1,0 +1,16 @@
+[project]
+name = "sample-python-scrapy"
+version = "0.1.0"
+description = "Scrapyの基本構成を示すサンプルプロジェクト"
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "scrapy==2.17.0",
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
