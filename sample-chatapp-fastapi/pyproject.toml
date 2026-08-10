@@ -1,0 +1,28 @@
+[project]
+name = "sample-chatapp-fastapi"
+version = "0.1.0"
+description = "FastAPIとSQLiteで会話履歴を管理するチャットAPIサンプル"
+authors = [{name = "sakagami0615"}]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "fastapi (>=0.141.1,<0.142.0)",
+    "uvicorn (>=0.51.0,<0.52.0)",
+]
+
+[dependency-groups]
+dev = [
+    "httpx (>=0.28.1,<0.29.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "-p no:cacheprovider"
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
