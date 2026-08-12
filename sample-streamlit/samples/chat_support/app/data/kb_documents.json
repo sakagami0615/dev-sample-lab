@@ -1,0 +1,7 @@
+[
+  {"id": "kb-001", "title": "商品Aについて", "answer": "商品Aは、業務効率化を目的としたクラウド型のタスク管理ツールです。無料プランと有料プランをご用意しています。", "source_system": "product_docs", "updated_at": "2026-07-01T00:00:00"},
+  {"id": "kb-002", "title": "商品Bについて", "answer": "商品Bは、データ分析向けのダッシュボード製品です。商品Aと連携してご利用いただけます。", "source_system": "product_docs", "updated_at": "2026-07-01T00:00:00"},
+  {"id": "kb-003", "title": "サービスCについて", "answer": "サービスCは24時間対応のカスタマーサポートサービスです。チャットまたは電話でご利用いただけます。", "source_system": "product_docs", "updated_at": "2026-07-01T00:00:00"},
+  {"id": "kb-004", "title": "料金プランについて", "answer": "料金プランはスタンダード(月額980円)とプレミアム(月額2,980円)の2種類をご用意しています。", "source_system": "billing_docs", "updated_at": "2026-07-15T00:00:00"},
+  {"id": "kb-005", "title": "解約について", "answer": "解約はマイページの「契約管理」からお手続きいただけます。日割り返金は行っておりません。", "source_system": "billing_docs", "updated_at": "2026-07-15T00:00:00"}
+]

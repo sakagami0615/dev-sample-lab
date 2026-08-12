@@ -5,7 +5,7 @@
 組み立てる。後から実際の LLM 呼び出しに差し替えても、この関数のインターフェース
 (引数・戻り値)は変わらない想定。
 """
-from models.schemas import ChatResponse
+from models.schemas import ChatResponse, KnowledgeDocument
 from services import rag_service, user_service
 
 GREETING = "何かご質問はありますか?"
@@ -30,10 +30,9 @@ def handle_message(user_id: str, message: str) -> ChatResponse:
     return ChatResponse(
         answer=_generate_answer(docs),
         resolved=True,
-        sources=[doc["title"] for doc in docs],
+        sources=[doc.title for doc in docs],
     )
 
 
-def _generate_answer(docs: list[dict]) -> str:
-    best = docs[0]
-    return best["answer"]
+def _generate_answer(docs: list[KnowledgeDocument]) -> str:
+    return docs[0].answer

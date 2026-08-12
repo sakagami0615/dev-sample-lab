@@ -1,0 +1,7 @@
+[
+  {"user_id": "user-001", "title": "ご契約プラン", "description": "スタンダードプランをご契約中です。", "source_system": "billing", "updated_at": "2026-08-05T00:00:00"},
+  {"user_id": "user-001", "title": "お知らせ", "description": "2026年8月20日にメンテナンスを予定しています。", "source_system": "notice", "updated_at": "2026-08-10T00:00:00"},
+  {"user_id": "user-001", "title": "関連ドキュメント", "description": "商品Aのご利用ガイドを更新しました。", "source_system": "docs", "updated_at": "2026-08-08T00:00:00"},
+  {"user_id": "user-002", "title": "ご契約プラン", "description": "プレミアムプランをご契約中です。", "source_system": "billing", "updated_at": "2026-08-05T00:00:00"},
+  {"user_id": "user-002", "title": "お知らせ", "description": "新サービスCのご案内を配信しました。", "source_system": "notice", "updated_at": "2026-08-09T00:00:00"}
+]

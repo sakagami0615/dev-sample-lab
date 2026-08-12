@@ -16,7 +16,7 @@ def test_get_user_unknown_raises():
 def test_rag_search_matches_keyword():
     docs = rag_service.search("商品Aについて教えてください")
     assert docs
-    assert docs[0]["title"] == "商品Aについて"
+    assert docs[0].title == "商品Aについて"
 
 
 def test_rag_search_no_match_returns_empty():

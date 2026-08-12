@@ -53,6 +53,11 @@ Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き
 本来ログイン認証から取得する想定のユーザーIDは、デモでは環境変数 `CHAT_SUPPORT_USER_ID` から取得します。
 未設定の場合はデフォルト値にフォールバックせず、画面上にその旨を明示してエラー表示します。
 
+ダミーデータ(`app/data/*.json`)はDWH(データウェアハウス)のディメンション/ファクトテーブルを模し、
+`users` / `user_related_info` / `kb_documents` / `kb_document_keywords` に分割・正規化しています。
+`updated_at` や `source_system` といったメタ列を持ち、Service層(`user_service.py` / `rag_service.py`)が
+外部キー(`user_id` / `document_id`)で結合してドメインモデルを組み立てます。
+
 ```bash
 CHAT_SUPPORT_USER_ID=user-001 poetry run streamlit run samples/chat_support/app/app.py
 ```

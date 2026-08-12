@@ -1,0 +1,13 @@
+[
+  {"document_id": "kb-001", "keyword": "商品A"},
+  {"document_id": "kb-002", "keyword": "商品B"},
+  {"document_id": "kb-003", "keyword": "サービスC"},
+  {"document_id": "kb-003", "keyword": "サポート"},
+  {"document_id": "kb-004", "keyword": "料金"},
+  {"document_id": "kb-004", "keyword": "プラン"},
+  {"document_id": "kb-004", "keyword": "価格"},
+  {"document_id": "kb-004", "keyword": "値段"},
+  {"document_id": "kb-005", "keyword": "解約"},
+  {"document_id": "kb-005", "keyword": "退会"},
+  {"document_id": "kb-005", "keyword": "キャンセル"}
+]
