@@ -46,6 +46,16 @@ class KnowledgeDocumentKeywordRow(BaseModel):
     keyword: str
 
 
+class UserCredentialRow(BaseModel):
+    """`user_credentials` ファクトテーブルの1行(`user_id` で `users` に紐づく)。"""
+
+    user_id: str
+    username: str
+    password_hash: str
+    source_system: str
+    updated_at: datetime
+
+
 class RelatedInfo(BaseModel):
     title: str
     description: str

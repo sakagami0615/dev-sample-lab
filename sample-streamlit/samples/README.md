@@ -47,46 +47,60 @@ poetry run python samples/dashboard/app/generate_data.py
 チャットで商品・サービスについて問い合わせると、ダミーのナレッジベースを検索して回答します。
 AIだけでは回答できない質問には、問い合わせ窓口への案内を表示します。
 
-UI(`app.py`)とロジック(`services/` の `chat_service.py` / `user_service.py` / `rag_service.py`)を分離しており、
-Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き換えやすい構成になっています。
+UI(`app.py`)とロジック(`services/` の `chat_service.py` / `user_service.py` / `rag_service.py` /
+`auth_service.py`)を分離しており、Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き換え
+やすい構成になっています。
 
-本来ログイン認証から取得する想定のユーザーIDは、デモでは環境変数 `CHAT_SUPPORT_USER_ID` から取得します。
-未設定の場合はデフォルト値にフォールバックせず、画面上にその旨を明示してエラー表示します。
+ログインには [`streamlit-authenticator`](https://github.com/mkhorasani/Streamlit-Authenticator) を使用し、
+以下のテストアカウントでログインできます(パスワードはbcryptでハッシュ化して保存)。
+
+| ユーザー名 | パスワード | 対応ユーザー |
+|---|---|---|
+| `yamada` | `demo-pass-001` | 山田 太郎(user-001) |
+| `sato` | `demo-pass-002` | 佐藤 花子(user-002) |
 
 #### アーキテクチャ
 
 ```mermaid
 graph TD
-    UI["app.py<br/>(Streamlit UI)"]
+    UI["app.py<br/>(Streamlit UI + ログインフォーム)"]
     Chat["chat_service.py<br/>(RAG検索→回答生成→解決可否判定)"]
+    AuthSvc["auth_service.py<br/>(資格情報の組み立て・username→user_id変換)"]
     UserSvc["user_service.py<br/>(ユーザー情報の結合ロジック)"]
     RagSvc["rag_service.py<br/>(キーワードスコアリング)"]
+    AuthRepo["auth_repository.py<br/>(ダミー実装)"]
     UserRepo["user_repository.py<br/>(ダミー実装)"]
     RagRepo["rag_repository.py<br/>(ダミー実装)"]
-    Data["data/*.json<br/>users / user_related_info /<br/>kb_documents / kb_document_keywords"]
-    Future["将来: DWH / Azure AI Search 等"]
+    Data["data/*.json<br/>users / user_related_info / user_credentials /<br/>kb_documents / kb_document_keywords"]
+    Future["将来: DWH / 実IDプロバイダ(Azure AD等) / Azure AI Search"]
 
+    UI --> AuthSvc
     UI --> Chat
     UI --> UserSvc
     Chat --> UserSvc
     Chat --> RagSvc
+    AuthSvc --> AuthRepo
+    AuthSvc --> UserRepo
     UserSvc --> UserRepo
     RagSvc --> RagRepo
+    AuthRepo --> Data
     UserRepo --> Data
     RagRepo --> Data
+    AuthRepo -.本番で差し替え.-> Future
     UserRepo -.本番で差し替え.-> Future
     RagRepo -.本番で差し替え.-> Future
 ```
 
 ダミーデータ(`app/data/*.json`)はDWH(データウェアハウス)のディメンション/ファクトテーブルを模し、
-`users` / `user_related_info` / `kb_documents` / `kb_document_keywords` に分割・正規化しています
-(`updated_at` / `source_system` といったメタ列を含む)。
+`users` / `user_related_info` / `user_credentials` / `kb_documents` / `kb_document_keywords` に
+分割・正規化しています(`updated_at` / `source_system` といったメタ列を含む)。
 
-このダミーデータへのアクセス処理は `user_repository.py` / `rag_repository.py` に切り出しており、
-`user_service.py` / `rag_service.py` は外部キー(`user_id` / `document_id`)で結合してドメインモデルを
-組み立てるロジックに専念しています。本番でデータ取得元をDWH等へ差し替える際は、この2つの
-`*_repository.py` だけを差し替えれば済み、Service層以降のコードは変更不要な想定です。
+このダミーデータへのアクセス処理は `auth_repository.py` / `user_repository.py` / `rag_repository.py`
+に切り出しており、`auth_service.py` / `user_service.py` / `rag_service.py` は外部キー(`user_id` /
+`username` / `document_id`)で結合してドメインモデルを組み立てるロジックに専念しています。本番で
+データ取得元をDWHや実IDプロバイダへ差し替える際は、`*_repository.py` だけを差し替えれば済み、
+Service層以降のコードは変更不要な想定です。
 
 ```bash
-CHAT_SUPPORT_USER_ID=user-001 poetry run streamlit run samples/chat_support/app/app.py
+poetry run streamlit run samples/chat_support/app/app.py
 ```
