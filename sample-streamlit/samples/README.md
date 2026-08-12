@@ -47,15 +47,40 @@ poetry run python samples/dashboard/app/generate_data.py
 チャットで商品・サービスについて問い合わせると、ダミーのナレッジベースを検索して回答します。
 AIだけでは回答できない質問には、問い合わせ窓口への案内を表示します。
 
-UI(`app.py`)とロジック(`services/` の `user_service.py` / `rag_service.py` / `chat_service.py`)を分離しており、
+UI(`app.py`)とロジック(`services/` の `chat_service.py` / `user_service.py` / `rag_service.py`)を分離しており、
 Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き換えやすい構成になっています。
 
 本来ログイン認証から取得する想定のユーザーIDは、デモでは環境変数 `CHAT_SUPPORT_USER_ID` から取得します。
 未設定の場合はデフォルト値にフォールバックせず、画面上にその旨を明示してエラー表示します。
 
+#### アーキテクチャ
+
+```mermaid
+graph TD
+    UI["app.py<br/>(Streamlit UI)"]
+    Chat["chat_service.py<br/>(RAG検索→回答生成→解決可否判定)"]
+    UserSvc["user_service.py<br/>(ユーザー情報の結合ロジック)"]
+    RagSvc["rag_service.py<br/>(キーワードスコアリング)"]
+    UserRepo["user_repository.py<br/>(ダミー実装)"]
+    RagRepo["rag_repository.py<br/>(ダミー実装)"]
+    Data["data/*.json<br/>users / user_related_info /<br/>kb_documents / kb_document_keywords"]
+    Future["将来: DWH / Azure AI Search 等"]
+
+    UI --> Chat
+    UI --> UserSvc
+    Chat --> UserSvc
+    Chat --> RagSvc
+    UserSvc --> UserRepo
+    RagSvc --> RagRepo
+    UserRepo --> Data
+    RagRepo --> Data
+    UserRepo -.本番で差し替え.-> Future
+    RagRepo -.本番で差し替え.-> Future
+```
+
 ダミーデータ(`app/data/*.json`)はDWH(データウェアハウス)のディメンション/ファクトテーブルを模し、
-`users` / `user_related_info` / `kb_documents` / `kb_document_keywords` に分割・正規化しています。
-`updated_at` や `source_system` といったメタ列を持ちます。
+`users` / `user_related_info` / `kb_documents` / `kb_document_keywords` に分割・正規化しています
+(`updated_at` / `source_system` といったメタ列を含む)。
 
 このダミーデータへのアクセス処理は `user_repository.py` / `rag_repository.py` に切り出しており、
 `user_service.py` / `rag_service.py` は外部キー(`user_id` / `document_id`)で結合してドメインモデルを
