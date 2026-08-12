@@ -11,8 +11,6 @@ from models.schemas import User
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "users.json"
 
-DEFAULT_USER_ID = "user-001"
-
 
 def _load_users(path: Path = DATA_PATH) -> list[User]:
     with open(path, encoding="utf-8") as f:
@@ -20,7 +18,7 @@ def _load_users(path: Path = DATA_PATH) -> list[User]:
     return [User(**item) for item in raw]
 
 
-def get_user(user_id: str = DEFAULT_USER_ID) -> User:
+def get_user(user_id: str) -> User:
     for user in _load_users():
         if user.id == user_id:
             return user

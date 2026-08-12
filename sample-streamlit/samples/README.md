@@ -50,6 +50,9 @@ AIだけでは回答できない質問には、問い合わせ窓口への案内
 UI(`app.py`)とロジック(`services/` の `user_service.py` / `rag_service.py` / `chat_service.py`)を分離しており、
 Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き換えやすい構成になっています。
 
+本来ログイン認証から取得する想定のユーザーIDは、デモでは環境変数 `CHAT_SUPPORT_USER_ID` から取得します。
+未設定の場合はデフォルト値にフォールバックせず、画面上にその旨を明示してエラー表示します。
+
 ```bash
-poetry run streamlit run samples/chat_support/app/app.py
+CHAT_SUPPORT_USER_ID=user-001 poetry run streamlit run samples/chat_support/app/app.py
 ```

@@ -1,12 +1,25 @@
 """Streamlit UI に専念する。RAG/LLM の具体的な処理は Service 層に委譲する。"""
+import os
+
 import streamlit as st
 
 from services import chat_service, user_service
 
+USER_ID_ENV = "CHAT_SUPPORT_USER_ID"
+
 st.set_page_config(page_title="サポートポータル", page_icon="💬", layout="centered")
 st.title("サポートポータル")
 
-user = user_service.get_user(user_service.DEFAULT_USER_ID)
+user_id = os.environ.get(USER_ID_ENV)
+if not user_id:
+    st.error(
+        f"ユーザーIDが設定されていません。環境変数 `{USER_ID_ENV}` にユーザーID"
+        "(例: user-001)を設定して起動してください。"
+        "\n\n本来はログイン認証から取得する値ですが、デモではこの環境変数で代替しています。"
+    )
+    st.stop()
+
+user = user_service.get_user(user_id)
 
 st.subheader(f"こんにちは、{user.name}さん")
 st.markdown("**あなたに関連する情報**")
