@@ -1,0 +1,19 @@
+[
+  {
+    "id": "user-001",
+    "name": "山田 太郎",
+    "related_info": [
+      {"title": "ご契約プラン", "description": "スタンダードプランをご契約中です。"},
+      {"title": "お知らせ", "description": "2026年8月20日にメンテナンスを予定しています。"},
+      {"title": "関連ドキュメント", "description": "商品Aのご利用ガイドを更新しました。"}
+    ]
+  },
+  {
+    "id": "user-002",
+    "name": "佐藤 花子",
+    "related_info": [
+      {"title": "ご契約プラン", "description": "プレミアムプランをご契約中です。"},
+      {"title": "お知らせ", "description": "新サービスCのご案内を配信しました。"}
+    ]
+  }
+]

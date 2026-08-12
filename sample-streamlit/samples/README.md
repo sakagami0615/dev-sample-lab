@@ -40,3 +40,16 @@ poetry run streamlit run samples/dashboard/app/app.py
 ```bash
 poetry run python samples/dashboard/app/generate_data.py
 ```
+
+### chat_support — RAGチャットサポートUI
+
+サポートポータルを模したチャットUIのサンプルです。ユーザー向けの初期メッセージ・関連情報を表示した後、
+チャットで商品・サービスについて問い合わせると、ダミーのナレッジベースを検索して回答します。
+AIだけでは回答できない質問には、問い合わせ窓口への案内を表示します。
+
+UI(`app.py`)とロジック(`services/` の `user_service.py` / `rag_service.py` / `chat_service.py`)を分離しており、
+Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き換えやすい構成になっています。
+
+```bash
+poetry run streamlit run samples/chat_support/app/app.py
+```
