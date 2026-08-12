@@ -1,33 +1,16 @@
 """RAG(検索)処理を担当する。
 
-デモ段階では DWH のディメンション/ブリッジテーブルを模したダミー JSON
-(`kb_documents` / `kb_document_keywords`)を `document_id` で結合してキーワード
-一致検索する。後から Azure AI Search 等の検索基盤に置き換えられるよう、UI やチャ
-ット制御からは `search()` の入出力のみで利用できるようにしている。
+データの取得元(現在は `rag_repository.py` のダミー JSON)は意識せず、キーワード
+スコアリングによる検索ロジックに専念する。UI やチャット制御からは `search()` の
+入出力のみで利用できるようにしている。
 """
-import json
-from pathlib import Path
-
-from models.schemas import KnowledgeDocument, KnowledgeDocumentKeywordRow, KnowledgeDocumentRow
-
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-DOCUMENTS_PATH = DATA_DIR / "kb_documents.json"
-DOCUMENT_KEYWORDS_PATH = DATA_DIR / "kb_document_keywords.json"
-
-
-def _load_document_rows(path: Path = DOCUMENTS_PATH) -> list[KnowledgeDocumentRow]:
-    with open(path, encoding="utf-8") as f:
-        return [KnowledgeDocumentRow(**item) for item in json.load(f)]
-
-
-def _load_document_keyword_rows(path: Path = DOCUMENT_KEYWORDS_PATH) -> list[KnowledgeDocumentKeywordRow]:
-    with open(path, encoding="utf-8") as f:
-        return [KnowledgeDocumentKeywordRow(**item) for item in json.load(f)]
+from models.schemas import KnowledgeDocument
+from services import rag_repository
 
 
 def _load_documents() -> list[KnowledgeDocument]:
     keywords_by_document_id: dict[str, list[str]] = {}
-    for row in _load_document_keyword_rows():
+    for row in rag_repository.load_document_keyword_rows():
         keywords_by_document_id.setdefault(row.document_id, []).append(row.keyword)
 
     return [
@@ -37,7 +20,7 @@ def _load_documents() -> list[KnowledgeDocument]:
             answer=row.answer,
             keywords=keywords_by_document_id.get(row.id, []),
         )
-        for row in _load_document_rows()
+        for row in rag_repository.load_document_rows()
     ]
 
 

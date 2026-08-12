@@ -55,8 +55,12 @@ Service層はStreamlitに依存しないため、将来的にFastAPI等へ置き
 
 ダミーデータ(`app/data/*.json`)はDWH(データウェアハウス)のディメンション/ファクトテーブルを模し、
 `users` / `user_related_info` / `kb_documents` / `kb_document_keywords` に分割・正規化しています。
-`updated_at` や `source_system` といったメタ列を持ち、Service層(`user_service.py` / `rag_service.py`)が
-外部キー(`user_id` / `document_id`)で結合してドメインモデルを組み立てます。
+`updated_at` や `source_system` といったメタ列を持ちます。
+
+このダミーデータへのアクセス処理は `user_repository.py` / `rag_repository.py` に切り出しており、
+`user_service.py` / `rag_service.py` は外部キー(`user_id` / `document_id`)で結合してドメインモデルを
+組み立てるロジックに専念しています。本番でデータ取得元をDWH等へ差し替える際は、この2つの
+`*_repository.py` だけを差し替えれば済み、Service層以降のコードは変更不要な想定です。
 
 ```bash
 CHAT_SUPPORT_USER_ID=user-001 poetry run streamlit run samples/chat_support/app/app.py
