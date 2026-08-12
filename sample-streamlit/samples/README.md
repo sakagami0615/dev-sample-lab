@@ -56,8 +56,8 @@ UI(`app.py`)とロジック(`services/` の `chat_service.py` / `user_service.py
 
 | ユーザー名 | パスワード | 対応ユーザー |
 |---|---|---|
-| `yamada` | `demo-pass-001` | 山田 太郎(user-001) |
-| `sato` | `demo-pass-002` | 佐藤 花子(user-002) |
+| `hoge` | `demo-pass-001` | 山田 太郎(user-001) |
+| `fuga` | `demo-pass-002` | 佐藤 花子(user-002) |
 
 #### アーキテクチャ
 
