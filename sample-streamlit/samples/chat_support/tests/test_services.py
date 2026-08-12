@@ -5,7 +5,7 @@ from services import chat_service, rag_service, user_service
 
 def test_get_user_returns_known_user():
     user = user_service.get_user("user-001")
-    assert user.name == "山田 太郎"
+    assert user.name == "hoge"
 
 
 def test_get_user_unknown_raises():
@@ -34,4 +34,4 @@ def test_chat_service_unresolved_for_unknown_topic():
     response = chat_service.handle_message("user-001", "今日の天気は?")
     assert response.resolved is False
     assert response.sources == []
-    assert "山田 太郎" in response.answer
+    assert "hoge" in response.answer

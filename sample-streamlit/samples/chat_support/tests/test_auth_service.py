@@ -6,8 +6,8 @@ from services import auth_service
 
 def test_build_credentials_contains_known_usernames():
     credentials = auth_service.build_credentials()
-    assert credentials["usernames"]["hoge"]["name"] == "山田 太郎"
-    assert credentials["usernames"]["fuga"]["name"] == "佐藤 花子"
+    assert credentials["usernames"]["hoge"]["name"] == "hoge"
+    assert credentials["usernames"]["fuga"]["name"] == "fuga"
 
 
 def test_get_user_id_by_username_known():

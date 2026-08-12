@@ -54,10 +54,10 @@ UI(`app.py`)とロジック(`services/` の `chat_service.py` / `user_service.py
 ログインには [`streamlit-authenticator`](https://github.com/mkhorasani/Streamlit-Authenticator) を使用し、
 以下のテストアカウントでログインできます(パスワードはbcryptでハッシュ化して保存)。
 
-| ユーザー名 | パスワード | 対応ユーザー |
+| ユーザー名 | パスワード | 対応ユーザー(user_id) |
 |---|---|---|
-| `hoge` | `demo-pass-001` | 山田 太郎(user-001) |
-| `fuga` | `demo-pass-002` | 佐藤 花子(user-002) |
+| `hoge` | `demo-pass-001` | hoge(user-001) |
+| `fuga` | `demo-pass-002` | fuga(user-002) |
 
 #### アーキテクチャ
 
