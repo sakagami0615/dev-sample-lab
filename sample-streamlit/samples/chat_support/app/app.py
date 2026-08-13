@@ -1,11 +1,20 @@
 """Streamlit UI に専念する。ログイン認証・RAG/LLM の具体的な処理は Service 層に委譲する。"""
 import streamlit as st
 import streamlit_authenticator as stauth
+from dotenv import load_dotenv
 
-from services import auth_service, chat_service, user_service
+from services import auth_service, chat_service, llm_repository, user_service
+
+load_dotenv()
 
 st.set_page_config(page_title="サポートポータル", page_icon="💬", layout="centered")
 st.title("サポートポータル")
+
+try:
+    llm_repository.validate_config()
+except RuntimeError as exc:
+    st.error(str(exc))
+    st.stop()
 
 authenticator = stauth.Authenticate(
     auth_service.build_credentials(),
@@ -28,7 +37,9 @@ user = user_service.get_user(user_id)
 
 if st.session_state.get("chat_user_id") != user_id:
     st.session_state.chat_user_id = user_id
-    st.session_state.messages = [{"role": "assistant", "content": chat_service.GREETING}]
+    st.session_state.messages = [
+        {"role": "assistant", "content": chat_service.GREETING}
+    ]
 
 with st.sidebar:
     authenticator.logout("ログアウト")
@@ -57,4 +68,6 @@ if prompt := st.chat_input("質問を入力してください"):
         if response.sources:
             st.caption("参照情報: " + ", ".join(response.sources))
 
-    st.session_state.messages.append({"role": "assistant", "content": response.answer})
+    st.session_state.messages.append(
+        {"role": "assistant", "content": response.answer}
+    )
