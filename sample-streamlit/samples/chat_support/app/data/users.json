@@ -1,0 +1,4 @@
+[
+  {"id": "user-001", "name": "hoge", "source_system": "crm", "updated_at": "2026-08-01T00:00:00"},
+  {"id": "user-002", "name": "fuga", "source_system": "crm", "updated_at": "2026-08-01T00:00:00"}
+]
